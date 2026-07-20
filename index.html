@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>NEX Living House v4</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="viewport">
+    <main id="stage" aria-label="NEX Living House">
+      <img class="background" src="assets/house-concept-v4.png" alt="Будинок NEX">
+      <div class="scene-shade"></div>
+
+      <header class="topbar">
+        <div class="brand glass"><strong>NEX</strong><span>LIVING HOUSE</span></div>
+        <div class="top-clock">
+          <b id="clock">--:--</b>
+          <span id="date">--</span>
+        </div>
+        <div class="weather-chip glass">
+          <span class="weather-icon">☁</span>
+          <div><b id="weatherTemp">+18°</b><small id="weatherState">Хмарно</small></div>
+        </div>
+      </header>
+
+      <aside class="timeline glass">
+        <div class="panel-title">Події будинку</div>
+        <div id="eventRows"></div>
+        <button type="button">Показати більше</button>
+      </aside>
+
+      <aside class="today glass">
+        <div class="panel-title">Сьогодні</div>
+        <dl>
+          <div><dt>Відключення</dt><dd id="todayOutages">1</dd></div>
+          <div><dt>Без мережі</dt><dd id="todayBlackout">2 хв</dd></div>
+          <div><dt>Сонце</dt><dd id="todaySolar">6.4 кВт·год</dd></div>
+          <div><dt>Будинок</dt><dd id="todayHouse">4.9 кВт·год</dd></div>
+          <div><dt>Батарея</dt><dd id="todayBattery">9%</dd></div>
+        </dl>
+      </aside>
+
+      <section class="object-tags" aria-label="Стани об'єктів">
+        <button class="tag tag-grid" data-modal="grid"><i></i><span>Трансформатор<small id="gridStatus">Мережа є</small></span></button>
+        <button class="tag tag-starlink" data-modal="internet"><i></i><span>Starlink<small id="internetStatus">Online · 27 ms</small></span></button>
+        <button class="tag tag-solar" data-modal="solar"><i></i><span>Панелі<small id="solarPower">1.8 кВт</small></span></button>
+        <button class="tag tag-inverter" data-modal="inverter"><i></i><span>Deye<small id="inverterPower">1.8 кВт</small></span></button>
+        <button class="tag tag-battery" data-modal="battery"><i></i><span>Батарея<small id="batteryRuntime">≈ 13 год</small></span></button>
+        <button class="tag tag-house" data-modal="house"><i></i><span>Будинок<small id="housePower">820 Вт</small></span></button>
+      </section>
+
+      <section class="energy-dock glass">
+        <div class="energy-item grid"><span>GRID</span><b id="gridVoltage">230 V</b><small>50.0 Hz</small></div>
+        <div class="flow flow-grid"></div>
+        <div class="energy-item solar"><span>SOLAR</span><b id="solarDock">2.7 kW</b></div>
+        <div class="flow flow-solar"></div>
+        <div class="energy-item deye"><span>DEYE</span><b id="deyeDock">2.7 kW</b></div>
+        <div class="flow flow-battery"></div>
+        <div class="energy-item battery"><span>BATTERY</span><b id="batterySoc">82%</b></div>
+        <div class="flow flow-house"></div>
+        <div class="energy-item house"><span>HOUSE</span><b id="houseDock">820 W</b></div>
+      </section>
+
+      <footer class="statusbar glass">
+        <span><i class="ok"></i>Мережа <b id="footerGrid">Online</b></span>
+        <span><i class="ok"></i>Інтернет <b id="footerInternet">Online</b></span>
+        <span><i class="sun"></i>Сонце <b id="footerSolar">1.8 кВт</b></span>
+        <span><i class="ok"></i>Батарея <b id="footerBattery">≈ 13 год</b></span>
+        <span><i class="house-dot"></i>Будинок <b id="footerHouse">820 Вт</b></span>
+      </footer>
+
+      <div id="nex" class="nex idle">
+        <div class="cat"><span>••</span></div>
+        <div id="nexSpeech" class="speech">Поки все спокійно.</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

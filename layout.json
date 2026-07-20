@@ -1,0 +1,7 @@
+{
+  "stage": {
+    "width": 1920,
+    "height": 1080
+  },
+  "notes": "All scene coordinates are fixed design pixels. The entire stage scales uniformly to the browser."
+}
