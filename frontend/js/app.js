@@ -1,14 +1,36 @@
-const boot=document.getElementById("boot");
-const scene=document.getElementById("scene");
+cat > frontend/js/app.js <<'EOF'
+import { SceneEngine } from "./scene.js";
 
-window.addEventListener("load",()=>{
+const BOOT_DURATION = 1600;
 
-    setTimeout(()=>{
+const boot = document.getElementById("boot");
+const app = document.getElementById("app");
 
-        boot.classList.add("hide");
+function updateClock() {
+    const clock = document.getElementById("scene-clock");
 
-        scene.classList.add("show");
+    if (!clock) {
+        return;
+    }
 
-    },2000);
+    clock.textContent = new Intl.DateTimeFormat("uk-UA", {
+        hour: "2-digit",
+        minute: "2-digit"
+    }).format(new Date());
+}
 
-});
+function startNex() {
+    const scene = new SceneEngine(app);
+
+    scene.mount();
+
+    updateClock();
+    window.setInterval(updateClock, 1000);
+
+    window.setTimeout(() => {
+        boot.classList.add("boot--hidden");
+    }, BOOT_DURATION);
+}
+
+window.addEventListener("DOMContentLoaded", startNex);
+EOF
