@@ -1,16 +1,15 @@
 {
-  "stage": {
-    "width": 1920,
-    "height": 1080
+  "design": {"width": 1920, "height": 1080},
+  "responsive": {
+    "desktop": "16:9 and ultrawide use cover with full scene",
+    "tablet": "4:3 crops the background and keeps device coordinates proportional",
+    "phone": "portrait crops around the house and reduces overlays"
   },
-  "objects": {
-    "grid": { "left": 405, "top": 735 },
-    "starlink": { "left": 665, "top": 145 },
-    "solar": { "left": 902, "top": 218 },
-    "inverter": { "left": 1250, "top": 696 },
-    "battery": { "left": 1408, "top": 696 },
-    "house": { "left": 980, "top": 742 },
-    "houseSpirit": { "left": 930, "top": 790 }
-  },
-  "notes": "Fixed design coordinates for the 1920x1080 stage. CSS remains the active renderer; this file is the source for the future Scene module."
+  "energyFlows": [
+    "transformer -> deye",
+    "solar -> deye",
+    "deye -> house",
+    "deye <-> battery"
+  ],
+  "excludedFlows": ["starlink"]
 }

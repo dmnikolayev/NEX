@@ -1,88 +1,26 @@
 (() => {
 "use strict";
-
-const initialState = {
-  grid: {
-    voltage: 230,
-    frequency: 50.0,
-    online: true,
-    power: 0
-  },
-  solar: {
-    power: 1800,
-    today: 6.4
-  },
-  inverter: {
-    power: 1800,
-    mode: "Сонячний режим"
-  },
-  battery: {
-    soc: 82,
-    runtimeHours: 13,
-    power: 430,
-    usedToday: 9
-  },
-  house: {
-    power: 820,
-    today: 4.9
-  },
-  internet: {
-    online: true,
-    ping: 27
-  },
-  weather: {
-    temperature: 18,
-    state: "Хмарно"
-  },
-  today: {
-    outages: 1,
-    blackout: "2 хв"
-  },
-  events: [
-    { time: "08:41", title: "Сонце прокинулося", detail: "Панелі почали генерацію" },
-    { time: "08:18", title: "Мережа стабільна", detail: "Напруга повернулась у норму" },
-    { time: "07:42", title: "Будинок прокинувся", detail: "Споживання зросло до 820 Вт" }
-  ]
+const initialState={
+ grid:{voltage:230,online:true,power:821},solar:{power:1800,today:6.4},
+ inverter:{power:1800,mode:"Сонячний режим"},battery:{soc:82,runtimeHours:13,power:430},
+ house:{power:821},internet:{online:true,ping:27},weather:{temperature:18,state:"Хмарно",forecast:[
+  {day:"Сьогодні",icon:"☁",high:18,low:14},{day:"Ср",icon:"🌤",high:20,low:15},{day:"Чт",icon:"☀",high:22,low:16}
+ ]},
+ events:[
+  {time:"14:31",icon:"☀",title:"Сонячна генерація",detail:"1.8 кВт",priority:2},
+  {time:"14:30",icon:"⚡",title:"Перехід на сонячну енергію",detail:"Інвертор працює в нормі",priority:2},
+  {time:"14:28",icon:"🔌",title:"Мережа відновлена",detail:"Напруга 230 В",priority:3},
+  {time:"13:55",icon:"◉",title:"Інтернет відновлено",detail:"Starlink Online",priority:2},
+  {time:"11:12",icon:"▣",title:"Будинок в автономії",detail:"Споживання від батареї",priority:3},
+  {time:"06:31",icon:"☾",title:"Нічний режим",detail:"Будинок в автономії",priority:1}
+ ],
+ summaries:[
+  {time:"",icon:"☀",title:"Сонце сьогодні",detail:"6.4 кВт·год"},
+  {time:"",icon:"⌂",title:"Будинок сьогодні",detail:"4.9 кВт·год"},
+  {time:"",icon:"▣",title:"Використано батареї",detail:"9%"}
+ ]
 };
-
-function deepMerge(target, patch) {
-  for (const [key, value] of Object.entries(patch || {})) {
-    if (value && typeof value === "object" && !Array.isArray(value)) {
-      target[key] = deepMerge({ ...(target[key] || {}) }, value);
-    } else {
-      target[key] = value;
-    }
-  }
-  return target;
-}
-
-const listeners = new Set();
-let state = structuredClone(initialState);
-
-window.HouseState = {
-  get() {
-    return structuredClone(state);
-  },
-
-  set(patch) {
-    state = deepMerge(structuredClone(state), patch);
-    listeners.forEach((listener) => listener(this.get()));
-  },
-
-  replace(nextState) {
-    state = deepMerge(structuredClone(initialState), nextState);
-    listeners.forEach((listener) => listener(this.get()));
-  },
-
-  subscribe(listener) {
-    listeners.add(listener);
-    listener(this.get());
-    return () => listeners.delete(listener);
-  },
-
-  reset() {
-    state = structuredClone(initialState);
-    listeners.forEach((listener) => listener(this.get()));
-  }
-};
+function merge(t,p){for(const[k,v]of Object.entries(p||{})){t[k]=v&&typeof v==="object"&&!Array.isArray(v)?merge({...t[k]},v):v}return t}
+let state=structuredClone(initialState);const listeners=new Set();
+window.HouseState={get:()=>structuredClone(state),set(p){state=merge(structuredClone(state),p);listeners.forEach(fn=>fn(structuredClone(state)))},subscribe(fn){listeners.add(fn);fn(structuredClone(state));return()=>listeners.delete(fn)},reset(){state=structuredClone(initialState);listeners.forEach(fn=>fn(structuredClone(state)))}};
 })();

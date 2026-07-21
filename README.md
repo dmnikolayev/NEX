@@ -1,44 +1,21 @@
-# NEX Living House v4 layout
+# NEX Living House — Responsive Energy Scene
 
-Перший перехід до затвердженого дизайну:
+## Реалізовано
 
-- центральний будинок;
-- верхня панель NEX, час і погода;
-- події зліва;
-- статистика дня справа;
-- підписи біля фізичних об'єктів;
-- нижній енергетичний ланцюг;
-- компактний статусний рядок;
-- NEX-кіт.
+- адаптивна сцена для телевізора, монітора, планшета і телефону;
+- Starlink лишається біля тарілки без енергетичної лінії;
+- рухомі енергетичні перемички лише між Grid, Solar, Deye, Battery і House;
+- кожен параметр показується лише біля відповідного фізичного елемента;
+- компактна погода на три дні;
+- ліва стрічка стану обертає сторінки кожні 30 секунд і ховається, якщо даних немає;
+- Home Assistant WebSocket та demo mode.
 
-Запуск:
+## Встановлення
+
+Розпакувати поверх репозиторію. Файли JavaScript мають лежати у `js/`.
 
 ```bash
 python3 -m http.server 8080
 ```
 
-
-## UI v1 / Data Engine
-
-This release introduces a centralized `HouseState` store.
-
-All screen values now render from one state object:
-
-- Grid
-- Solar
-- Inverter
-- Battery
-- House
-- Internet
-- Weather
-- Today statistics
-- Events
-
-`app.js` only renders and connects data sources. Home Assistant updates are written into `HouseState`.
-
-
-## UI v2 — Concept Polish
-- Enlarged the house scene and reduced visual duplication from the prototype artwork.
-- Rebuilt the energy centre as five separate glass modules with animated links.
-- Repositioned physical-object labels and the NEX cat closer to the approved concept.
-- Refined top bar, timeline, Today panel, spacing, blur, shadows and typography.
+Для Home Assistant змініть `demoMode` на `false` у `config.js` і вкажіть потрібні entity ID.
