@@ -249,3 +249,56 @@
   .energy-item{padding-left:61px}
   .energy-item::before{left:19px;font-size:32px}
 }
+
+/* =========================================================
+   Commit 1 — Living House cleanup
+   ========================================================= */
+.timeline,
+.event,
+.timeline button{
+  display:none!important;
+}
+
+.tag-starlink{left:665px;top:145px}
+.tag-house{left:980px;top:742px}
+
+.house-spirit{
+  position:absolute;
+  z-index:22;
+  left:930px;
+  top:790px;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  pointer-events:none;
+}
+
+.house-spirit .cat{
+  opacity:.38;
+  transform:translateY(5px);
+  transition:opacity .35s ease,transform .35s ease;
+}
+
+.house-spirit.talking .cat,
+.house-spirit.awake .cat{
+  opacity:1;
+  transform:none;
+}
+
+.house-spirit .speech{
+  visibility:hidden;
+  opacity:0;
+  transform:translateY(8px) scale(.98);
+  transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s;
+}
+
+.house-spirit.talking .speech{
+  visibility:visible;
+  opacity:1;
+  transform:none;
+  transition-delay:0s;
+}
+
+@media(max-width:1500px){
+  .house-spirit{left:930px;top:790px}
+}

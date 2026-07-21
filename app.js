@@ -218,6 +218,14 @@ function applyStates(list) {
 
 HouseState.subscribe(render);
 
+houseSpirit.say(
+    "🌞 Сонце торкнулося панелей."
+);
+
+houseSpirit.say(
+    event.message
+);
+
 if (cfg.demoMode) {
   startDemo();
 } else {

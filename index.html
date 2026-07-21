@@ -24,12 +24,6 @@
         </div>
       </header>
 
-      <aside class="timeline glass">
-        <div class="panel-title">Події будинку</div>
-        <div id="eventRows"></div>
-        <button type="button">Показати більше</button>
-      </aside>
-
       <aside class="today glass">
         <div class="panel-title">Сьогодні</div>
         <dl>
@@ -45,12 +39,12 @@
         <button class="tag tag-grid" data-modal="grid"><i></i><span>Трансформатор<small id="gridStatus">Мережа є</small></span></button>
         <button class="tag tag-starlink" data-modal="internet"><i></i><span>Starlink<small id="internetStatus">Online · 27 ms</small></span></button>
         <button class="tag tag-solar" data-modal="solar"><i></i><span>Панелі<small id="solarPower">1.8 кВт</small></span></button>
-        <button class="tag tag-inverter" data-modal="inverter"><i></i><span>Deye<small id="inverterPower">1.8 кВт</small></span></button>
+        <button class="tag tag-inverter" data-modal="inverter"><i></i><span>Deye<small id="inverterPower">Сонячний режим</small></span></button>
         <button class="tag tag-battery" data-modal="battery"><i></i><span>Батарея<small id="batteryRuntime">≈ 13 год</small></span></button>
         <button class="tag tag-house" data-modal="house"><i></i><span>Будинок<small id="housePower">820 Вт</small></span></button>
       </section>
 
-      <section class="energy-dock glass">
+      <section class="energy-dock" aria-label="Потоки енергії">
         <div class="energy-item grid"><span>GRID</span><b id="gridVoltage">230 V</b><small>50.0 Hz</small></div>
         <div class="flow flow-grid"></div>
         <div class="energy-item solar"><span>SOLAR</span><b id="solarDock">2.7 kW</b></div>
@@ -70,15 +64,16 @@
         <span><i class="house-dot"></i>Будинок <b id="footerHouse">820 Вт</b></span>
       </footer>
 
-      <div id="nex" class="nex idle">
-        <div class="cat"><span>••</span></div>
-        <div id="nexSpeech" class="speech">Сонце сьогодні старається.</div>
+      <div id="houseSpirit" class="house-spirit" aria-live="polite">
+        <div class="cat" aria-hidden="true"><span>••</span></div>
+        <div id="houseSpiritBubble" class="speech"></div>
       </div>
     </main>
   </div>
 
   <script src="config.js"></script>
-  <script src="house-state.js"></script>
-  <script src="app.js"></script>
+  <script src="js/house-state.js"></script>
+  <script src="js/house-spirit.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
