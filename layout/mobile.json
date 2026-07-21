@@ -1,0 +1,53 @@
+{
+  "camera": {
+    "objectPosition": "60% 50%"
+  },
+  "nodes": {
+    "clock": {
+      "x": 4,
+      "y": 3,
+      "tx": "0%",
+      "ty": "0%",
+      "scale": 0.7
+    },
+    "houseLog": {
+      "x": 50,
+      "y": 15,
+      "tx": "-50%",
+      "ty": "0%",
+      "scale": 0.66
+    },
+    "weather": {
+      "x": 50,
+      "y": 96,
+      "tx": "-50%",
+      "ty": "-100%",
+      "scale": 0.7
+    },
+    "internet": {
+      "x": 56,
+      "y": 43,
+      "scale": 0.62
+    },
+    "solar": {
+      "x": 78,
+      "y": 49,
+      "scale": 0.6
+    },
+    "transformer": {
+      "x": 9,
+      "y": 78,
+      "scale": 0.62
+    },
+    "deye": {
+      "x": 77,
+      "y": 74,
+      "scale": 0.58
+    },
+    "battery": {
+      "x": 91,
+      "y": 82,
+      "scale": 0.56
+    }
+  }
+}
