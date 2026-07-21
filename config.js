@@ -1,0 +1,21 @@
+window.NEX_CONFIG={
+  enabled:false,
+  baseUrl:"http://homeassistant.local:8123",
+  token:"",
+  pollMs:15000,
+  entities:{
+    solarPower:"",
+    solarToday:"",
+    housePower:"",
+    houseToday:"",
+    batterySoc:"",
+    batteryRuntime:"",
+    batteryTemperature:"",
+    batteryPower:"",
+    gridPower:"",
+    gridVoltage:"",
+    gridTemperature:"",
+    internetOnline:"",
+    internetPing:""
+  }
+};

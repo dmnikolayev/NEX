@@ -1,1 +1,7 @@
-export const HouseState={weather:[{label:"Сьогодні",icon:"🌤️",high:18,low:14},{label:"Ср",icon:"☀️",high:20,low:15},{label:"Чт",icon:"☀️",high:22,low:16}],log:[{time:"09:12",icon:"☀",text:"Сонячна генерація",value:"2.0 кВт"},{time:"09:05",icon:"▣",text:"Батарея заряджається",value:"82% · +1.6 кВт"},{time:"08:47",icon:"⚡",text:"Мережа в нормі",value:"230 В"},{time:"08:30",icon:"✓",text:"Система працює штатно",value:""},{time:"07:55",icon:"⌁",text:"Інтернет стабільний",value:"27 мс"}],internet:{online:true,pingMs:27},solar:{powerKw:2,todayKwh:6.4},transformer:{voltage:231,gridKw:1.9},deye:{consumptionKw:1.9,loadW:821},battery:{percent:82,hours:13}};
+export class HouseState {
+  constructor(initial={}){this._value=structuredClone(initial);this.listeners=new Set()}
+  get value(){return this._value}
+  subscribe(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}
+  update(patch){this._value=deepMerge(this._value,patch);for(const fn of this.listeners)fn(this._value)}
+}
+function deepMerge(base,patch){const out={...base};for(const [key,value] of Object.entries(patch||{})){out[key]=value&&typeof value==='object'&&!Array.isArray(value)?deepMerge(base?.[key]||{},value):value}return out}

@@ -1,1 +1,66 @@
-<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>NEX Living House</title><link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/hud.css"></head><body><main id="scene" class="scene"><img class="scene__background" src="assets/house-bg-v2.png" alt=""><div class="scene__veil"></div><canvas id="energy" class="energy"></canvas><div id="widgets" class="widgets"></div></main><script type="module" src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101722">
+  <title>NEX Living House — v0.3 step 2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="scene" class="scene">
+    <img class="scene__background" src="assets/house-concept-v4.png" alt="">
+    <div class="scene__fallback"></div>
+    <div class="scene__shade"></div>
+
+    <header class="top">
+      <div class="brand"><strong>NEX</strong><span>LIVING HOUSE</span></div>
+      <div class="clock"><strong id="clock">--:--</strong><span id="date">--</span></div>
+      <section class="weather">
+        <span class="weather__icon" id="weatherIcon">☁</span>
+        <div><strong id="weatherTemp">--°</strong><small id="weatherState">—</small></div>
+        <div class="forecast" id="forecast"></div>
+      </section>
+    </header>
+
+    <section id="houseLog" class="house-log"></section>
+
+    <section class="hud-layer">
+      <article class="hud hud--grid">
+        <i class="status-dot" id="gridStatus"></i>
+        <strong id="gridPower">— W</strong>
+        <div class="hud__details"><span>⚡ <b id="gridVoltage">— V</b></span><span>·</span><span><b id="gridTemp">—°C</b></span></div>
+      </article>
+
+      <article class="hud hud--solar">
+        <span class="hud__icon">☀</span>
+        <strong id="solarPower">— W</strong>
+        <span class="hud__secondary">Today <b id="solarToday">— kWh</b></span>
+      </article>
+
+      <article class="hud hud--deye">
+        <span class="hud__icon hud__icon--house">◆</span>
+        <strong id="deyeConsumption">— W</strong>
+        <span class="hud__secondary">Today <b id="deyeToday">— kWh</b></span>
+      </article>
+
+      <article class="hud hud--battery">
+        <span class="battery-glyph"><i id="batteryFill"></i></span>
+        <strong id="batteryRuntime">—</strong>
+        <div class="hud__details"><span><b id="batterySoc">—%</b></span><span>·</span><span>🌡 <b id="batteryTemp">—°C</b></span></div>
+      </article>
+
+      <article class="internet-hud">
+        <i id="internetStatus"></i>
+        <div><strong id="internetState">Internet</strong><span id="internetPing">— ms</span></div>
+      </article>
+    </section>
+
+    <canvas id="energyCanvas" class="energy-canvas"></canvas>
+    <div id="spirit" class="spirit" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="config.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
