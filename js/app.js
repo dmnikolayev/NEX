@@ -1,3 +1,24 @@
-import {HouseState} from './house-state.js';import {LayoutEngine} from './layout-engine.js';import {StateRenderer} from './state-renderer.js';import {EnergyFlow} from './energy-flow.js';import {HAAdapter} from './ha-adapter.js';
-const state=new HouseState({grid:{online:true,power:251,voltage:236.8,temperature:39.4},solar:{power:0,today:0},house:{power:238,today:5.6},battery:{soc:82,runtimeMinutes:1278,temperature:21,power:0},internet:{online:true,ping:27},weather:{temp:18,state:'Хмарно',icon:'☁',forecast:[['Ср','20°'],['Чт','22°'],['Пт','19°']]},events:[{time:'09:12',text:'+2.0 kW'},{time:'09:05',text:'Battery charging'},{time:'08:47',text:'Grid OK'},{time:'07:55',text:'Internet OK'}]});
-const layout=new LayoutEngine();await layout.init();const renderer=new StateRenderer(state);renderer.init();const flow=new EnergyFlow(document.querySelector('#energyCanvas'),state,layout);flow.start();state.subscribe(s=>renderer.render(s));renderer.render(state.value);const adapter=new HAAdapter(window.NEX_CONFIG||{},state);if(window.NEX_CONFIG?.enabled)adapter.start();window.NEX={state,adapter,update:p=>state.update(p),spirit:(m,t)=>renderer.spirit(m,t),refresh:()=>adapter.refresh()};
+(() => {
+  const timeEl = document.getElementById('clock-time');
+  const dateEl = document.getElementById('clock-date');
+
+  const updateClock = () => {
+    const now = new Date();
+    timeEl.textContent = new Intl.DateTimeFormat('uk-UA', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(now);
+
+    const raw = new Intl.DateTimeFormat('uk-UA', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long'
+    }).format(now);
+
+    dateEl.textContent = raw.charAt(0).toUpperCase() + raw.slice(1);
+  };
+
+  updateClock();
+  setInterval(updateClock, 1000 * 30);
+})();

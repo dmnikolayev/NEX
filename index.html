@@ -1,66 +1,71 @@
 <!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#101722">
-  <title>NEX Living House — v0.3 step 2</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <title>NEX Living House — Clean Scene</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main id="scene" class="scene">
-    <img class="scene__background" src="assets/house-concept-v4.png" alt="">
-    <div class="scene__fallback"></div>
-    <div class="scene__shade"></div>
+  <main class="scene" aria-label="NEX Living House">
+    <img class="scene__background" src="assets/house-bg-v2.png" alt="" />
+    <div class="scene__shade" aria-hidden="true"></div>
 
-    <header class="top">
-      <div class="brand"><strong>NEX</strong><span>LIVING HOUSE</span></div>
-      <div class="clock"><strong id="clock">--:--</strong><span id="date">--</span></div>
-      <section class="weather">
-        <span class="weather__icon" id="weatherIcon">☁</span>
-        <div><strong id="weatherTemp">--°</strong><small id="weatherState">—</small></div>
-        <div class="forecast" id="forecast"></div>
-      </section>
+    <div class="brand" aria-label="NEX Living House">
+      <strong>NEX</strong><span>LIVING HOUSE</span>
+    </div>
+
+    <header class="clock" data-node="clock">
+      <time class="clock__time" id="clock-time">18:41</time>
+      <div class="clock__date" id="clock-date">вівторок, 21 липня</div>
     </header>
 
-    <section id="houseLog" class="house-log"></section>
-
-    <section class="hud-layer">
-      <article class="hud hud--grid">
-        <i class="status-dot" id="gridStatus"></i>
-        <strong id="gridPower">— W</strong>
-        <div class="hud__details"><span>⚡ <b id="gridVoltage">— V</b></span><span>·</span><span><b id="gridTemp">—°C</b></span></div>
-      </article>
-
-      <article class="hud hud--solar">
-        <span class="hud__icon">☀</span>
-        <strong id="solarPower">— W</strong>
-        <span class="hud__secondary">Today <b id="solarToday">— kWh</b></span>
-      </article>
-
-      <article class="hud hud--deye">
-        <span class="hud__icon hud__icon--house">◆</span>
-        <strong id="deyeConsumption">— W</strong>
-        <span class="hud__secondary">Today <b id="deyeToday">— kWh</b></span>
-      </article>
-
-      <article class="hud hud--battery">
-        <span class="battery-glyph"><i id="batteryFill"></i></span>
-        <strong id="batteryRuntime">—</strong>
-        <div class="hud__details"><span><b id="batterySoc">—%</b></span><span>·</span><span>🌡 <b id="batteryTemp">—°C</b></span></div>
-      </article>
-
-      <article class="internet-hud">
-        <i id="internetStatus"></i>
-        <div><strong id="internetState">Internet</strong><span id="internetPing">— ms</span></div>
-      </article>
+    <section class="house-log" data-node="houseLog" aria-label="Події будинку">
+      <article><time>09:12</time><span>+2.0 кВт</span></article>
+      <article><time>09:05</time><span>Батарея заряджається</span></article>
+      <article><time>08:47</time><span>Мережа в нормі</span></article>
+      <article><time>07:55</time><span>Інтернет стабільний</span></article>
     </section>
 
-    <canvas id="energyCanvas" class="energy-canvas"></canvas>
-    <div id="spirit" class="spirit" role="status" aria-live="polite"></div>
+    <section class="weather" data-node="weather" aria-label="Прогноз погоди">
+      <article><span class="weather__icon">🌤️</span><strong>+18°</strong><small>+14°</small></article>
+      <article><span class="weather__icon">☀️</span><strong>+20°</strong><small>+15°</small></article>
+      <article><span class="weather__icon">☀️</span><strong>+22°</strong><small>+16°</small></article>
+    </section>
+
+    <section class="hud hud--grid" data-node="gridHud" aria-label="Мережа">
+      <i class="hud__dot"></i>
+      <strong data-value="grid-power">251 W</strong>
+      <small><span data-value="grid-voltage">236.8 V</span> · <span data-value="grid-temp">39°C</span></small>
+    </section>
+
+    <section class="hud hud--internet" data-node="internetHud" aria-label="Інтернет">
+      <i class="hud__dot"></i>
+      <strong data-value="internet-status">Online</strong>
+      <small data-value="internet-ping">27 ms</small>
+    </section>
+
+    <section class="hud hud--solar" data-node="solarHud" aria-label="Сонячні панелі">
+      <i class="hud__dot"></i>
+      <strong data-value="solar-power">2.0 kW</strong>
+      <small data-value="solar-today">6.4 kWh</small>
+    </section>
+
+    <section class="hud hud--house" data-node="houseHud" aria-label="Будинок">
+      <i class="hud__dot"></i>
+      <strong data-value="house-power">238 W</strong>
+      <small data-value="house-today">5.6 kWh</small>
+    </section>
+
+    <section class="hud hud--battery" data-node="batteryHud" aria-label="Батарея">
+      <i class="hud__dot"></i>
+      <strong data-value="battery-runtime">21h 18m</strong>
+      <div class="battery-line" aria-hidden="true"><span style="width:82%"></span></div>
+      <small><span data-value="battery-soc">82%</span> · <span data-value="battery-temp">21°C</span></small>
+    </section>
   </main>
 
-  <script src="config.js"></script>
-  <script type="module" src="js/app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

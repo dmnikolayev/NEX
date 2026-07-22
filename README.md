@@ -1,22 +1,24 @@
-# NEX Living House — v0.3 step 2
+# NEX Living House v0.5 — Clean Scene
 
-Параметри:
-- Solar: W зараз + kWh за день
-- Deye/House: W зараз + kWh за день
-- Battery: SOC + прогноз часу + температура
-- Grid/Transformer: W + V + температура
-- Internet: окремий online/offline + ping
+У цій версії прибрано всі великі дублюючі панелі:
 
-## Підключення Home Assistant
-Відкрий `config.js`, встав точні `entity_id`, токен і постав `enabled:true`.
+- Internet panel
+- Solar panel
+- Transformer card
+- Deye card
+- Battery card
+- великі іконки House Log
 
-## Старі картки
-Цей `index.html` старих карток не містить. Якщо вони залишились — відкритий старий каталог або кеш.
-Запусти нову папку на іншому порту:
+Залишено лише сцену, погоду, годинник, компактний House Log та п’ять HUD, прив’язаних до фізичних об’єктів.
+
+## Запуск
 
 ```bash
-cd NEX-v0.3-step2
-python3 -m http.server 8081
+python3 -m http.server 8080
 ```
 
-Потім відкрий `http://IP:8081/` і зроби hard reload.
+Відкрити `http://localhost:8080`.
+
+## Підключення даних
+
+Значення мають `data-value` атрибути, тому їх можна напряму оновлювати з `HouseState` або `ha-adapter.js`.
