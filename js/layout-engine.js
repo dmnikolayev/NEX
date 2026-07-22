@@ -1,8 +1,23 @@
-export class LayoutEngine {
+export class LayoutEngine{
   constructor(){this.current=null;this.listeners=new Set()}
-  async init(){await this.load();window.addEventListener('resize',()=>this.load())}
-  mode(){const w=window.innerWidth;return w<700?'mobile':w<1100?'tablet':'desktop'}
-  async load(){const mode=this.mode();const r=await fetch(`layout/${mode}.json`,{cache:'no-store'});this.current=await r.json();this.apply();for(const fn of this.listeners)fn(this.current)}
-  apply(){for(const key of ['grid','solar','deye','battery','internet']){const p=this.current[key];const n=document.querySelector(key==='internet'?'.internet-hud':`.hud--${key}`);if(n){n.style.left=`${p.x}%`;n.style.top=`${p.y}%`}}}
+  async init(){await this.load();addEventListener("resize",()=>this.load(),{passive:true})}
+  mode(){return innerWidth<700?"mobile":innerWidth<1100?"tablet":"desktop"}
+  async load(){
+    const r=await fetch(`layout/${this.mode()}.json`,{cache:"no-store"});
+    if(!r.ok)throw new Error(`layout: ${r.status}`);
+    this.current=await r.json();
+    this.apply();
+    for(const fn of this.listeners)fn(this.current);
+  }
+  apply(){
+    for(const [key,p] of Object.entries(this.current.nodes||{})){
+      const n=document.querySelector(`[data-node="${key}"]`);
+      if(!n)continue;
+      n.style.left=`${p.x}%`;n.style.top=`${p.y}%`;
+      if(p.scale)n.style.setProperty("--node-scale",p.scale);
+    }
+    const bg=document.getElementById("scene-background");
+    if(bg&&this.current.camera?.objectPosition)bg.style.objectPosition=this.current.camera.objectPosition;
+  }
   subscribe(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}
 }

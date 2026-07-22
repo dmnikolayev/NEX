@@ -1,7 +1,12 @@
 export class HouseState {
-  constructor(initial={}){this._value=structuredClone(initial);this.listeners=new Set()}
-  get value(){return this._value}
+  constructor(initial){this.value=structuredClone(initial);this.listeners=new Set()}
   subscribe(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}
-  update(patch){this._value=deepMerge(this._value,patch);for(const fn of this.listeners)fn(this._value)}
+  update(patch){this.value=merge(this.value,patch);for(const fn of this.listeners)fn(this.value)}
 }
-function deepMerge(base,patch){const out={...base};for(const [key,value] of Object.entries(patch||{})){out[key]=value&&typeof value==='object'&&!Array.isArray(value)?deepMerge(base?.[key]||{},value):value}return out}
+function merge(base,patch){
+  const out={...base};
+  for(const [k,v] of Object.entries(patch||{})){
+    out[k]=v&&typeof v==="object"&&!Array.isArray(v)?merge(base?.[k]||{},v):v;
+  }
+  return out;
+}

@@ -1,71 +1,90 @@
 <!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#07111f" />
-  <title>NEX Living House — Clean Scene</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>NEX Living House</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="scene" aria-label="NEX Living House">
-    <img class="scene__background" src="assets/house-bg-v2.png" alt="" />
+  <main id="scene" class="scene" aria-label="NEX Living House">
+    <img id="scene-background" class="scene__background" src="assets/house-bg-v2.png" alt="">
     <div class="scene__shade" aria-hidden="true"></div>
+    <canvas id="energy-flow" class="energy-flow" aria-hidden="true"></canvas>
 
-    <div class="brand" aria-label="NEX Living House">
+    <div class="brand">
       <strong>NEX</strong><span>LIVING HOUSE</span>
     </div>
 
     <header class="clock" data-node="clock">
-      <time class="clock__time" id="clock-time">18:41</time>
-      <div class="clock__date" id="clock-date">вівторок, 21 липня</div>
+      <time id="clock-time">--:--</time>
+      <div id="clock-date">—</div>
     </header>
 
-    <section class="house-log" data-node="houseLog" aria-label="Події будинку">
-      <article><time>09:12</time><span>+2.0 кВт</span></article>
-      <article><time>09:05</time><span>Батарея заряджається</span></article>
-      <article><time>08:47</time><span>Мережа в нормі</span></article>
-      <article><time>07:55</time><span>Інтернет стабільний</span></article>
-    </section>
+    <section id="house-log" class="house-log" data-node="houseLog" aria-label="Події будинку"></section>
 
-    <section class="weather" data-node="weather" aria-label="Прогноз погоди">
-      <article><span class="weather__icon">🌤️</span><strong>+18°</strong><small>+14°</small></article>
-      <article><span class="weather__icon">☀️</span><strong>+20°</strong><small>+15°</small></article>
-      <article><span class="weather__icon">☀️</span><strong>+22°</strong><small>+16°</small></article>
-    </section>
+    <section id="weather" class="weather" data-node="weather" aria-label="Погода"></section>
 
-    <section class="hud hud--grid" data-node="gridHud" aria-label="Мережа">
+    <section id="grid-hud" class="hud hud--grid" data-node="grid" aria-label="Мережа">
       <i class="hud__dot"></i>
-      <strong data-value="grid-power">251 W</strong>
-      <small><span data-value="grid-voltage">236.8 V</span> · <span data-value="grid-temp">39°C</span></small>
+      <strong id="grid-power">—</strong>
+      <small><span id="grid-voltage">—</span> · <span id="grid-temp">—</span></small>
     </section>
 
-    <section class="hud hud--internet" data-node="internetHud" aria-label="Інтернет">
+    <section id="internet-hud" class="hud hud--internet" data-node="internet" aria-label="Інтернет">
       <i class="hud__dot"></i>
-      <strong data-value="internet-status">Online</strong>
-      <small data-value="internet-ping">27 ms</small>
+      <strong id="internet-state">—</strong>
+      <small id="internet-ping">—</small>
     </section>
 
-    <section class="hud hud--solar" data-node="solarHud" aria-label="Сонячні панелі">
+    <section id="solar-hud" class="hud hud--solar" data-node="solar" aria-label="Сонячні панелі">
       <i class="hud__dot"></i>
-      <strong data-value="solar-power">2.0 kW</strong>
-      <small data-value="solar-today">6.4 kWh</small>
+      <strong id="solar-power">—</strong>
+      <small id="solar-today">—</small>
     </section>
 
-    <section class="hud hud--house" data-node="houseHud" aria-label="Будинок">
+    <section id="house-hud" class="hud hud--house" data-node="house" aria-label="Будинок">
       <i class="hud__dot"></i>
-      <strong data-value="house-power">238 W</strong>
-      <small data-value="house-today">5.6 kWh</small>
+      <strong id="house-power">—</strong>
+      <small id="house-today">—</small>
     </section>
 
-    <section class="hud hud--battery" data-node="batteryHud" aria-label="Батарея">
-      <i class="hud__dot"></i>
-      <strong data-value="battery-runtime">21h 18m</strong>
-      <div class="battery-line" aria-hidden="true"><span style="width:82%"></span></div>
-      <small><span data-value="battery-soc">82%</span> · <span data-value="battery-temp">21°C</span></small>
+    <section id="deye-display" class="device-display device-display--deye" data-node="deye" aria-label="Deye">
+      <div class="deye-ring" id="deye-ring">
+        <strong id="deye-power">—</strong>
+      </div>
     </section>
+
+    <section id="battery-display" class="device-display device-display--battery" data-node="battery" aria-label="Батарея">
+      <div class="battery-bars" id="battery-bars" aria-hidden="true"></div>
+      <strong id="battery-soc">—</strong>
+      <small><span id="battery-runtime">—</span><br><span id="battery-temp">—</span></small>
+    </section>
+
+
+    <button id="nex-cat" class="nex-cat" type="button" aria-label="Кіт NEX" title="NEX">
+      <svg viewBox="0 0 180 110" aria-hidden="true">
+        <path class="cat-shadow" d="M26 91c24-12 91-10 126 0-22 14-104 16-126 0Z"/>
+        <path class="cat-tail" d="M126 72c30-14 33-43 12-51-13-5-22 6-15 15 4 5 13 2 11-5"/>
+        <path class="cat-body" d="M46 79c1-28 23-47 53-43 28 3 44 22 39 49-21 9-72 10-92-6Z"/>
+        <path class="cat-chest" d="M78 44c10-8 27-7 37 3l-7 39H78Z"/>
+        <path class="cat-head" d="M60 41c-1-23 15-36 35-31 18-5 35 8 35 31 0 20-14 32-35 32S60 61 60 41Z"/>
+        <path class="cat-ear cat-ear--left" d="M66 25 61 4 82 16Z"/>
+        <path class="cat-ear cat-ear--right" d="m108 16 21-12-5 23Z"/>
+        <path class="cat-muzzle" d="M78 48c8-8 25-8 33 0-4 12-29 12-33 0Z"/>
+        <circle class="cat-eye" cx="80" cy="37" r="3.8"/>
+        <circle class="cat-eye" cx="109" cy="37" r="3.8"/>
+        <path class="cat-nose" d="m94 47 5 0-2.5 4Z"/>
+        <path class="cat-paw" d="M54 80c14-4 27-3 35 6-11 9-28 9-39 1Z"/>
+      </svg>
+    </button>
+
+    <div id="connection-badge" class="connection-badge">DEMO</div>
+    <div id="house-spirit" class="house-spirit" role="status"></div>
   </main>
 
-  <script src="js/app.js"></script>
+  <script src="config.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

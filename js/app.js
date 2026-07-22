@@ -1,24 +1,47 @@
-(() => {
-  const timeEl = document.getElementById('clock-time');
-  const dateEl = document.getElementById('clock-date');
+import {HouseState} from "./house-state.js";
+import {DataAdapter} from "./data-adapter.js";
+import {StateRenderer} from "./state-renderer.js";
+import {LayoutEngine} from "./layout-engine.js";
+import {EnergyFlow} from "./energy-flow.js";
 
-  const updateClock = () => {
-    const now = new Date();
-    timeEl.textContent = new Intl.DateTimeFormat('uk-UA', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    }).format(now);
+const initial={
+  grid:{online:true,power:251,voltage:236.8,temperature:39},
+  solar:{power:2000,today:6.4},
+  house:{power:238,today:5.6},
+  battery:{soc:82,runtimeMinutes:1278,temperature:21,power:420},
+  internet:{online:true,ping:27},
+  weather:{forecast:[]},
+  events:[]
+};
 
-    const raw = new Intl.DateTimeFormat('uk-UA', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long'
-    }).format(now);
+const state=new HouseState(initial);
+const renderer=new StateRenderer(state);
+const layout=new LayoutEngine();
 
-    dateEl.textContent = raw.charAt(0).toUpperCase() + raw.slice(1);
-  };
+renderer.init();
+await layout.init();
+state.subscribe(s=>renderer.render(s));
+renderer.render(state.value);
 
-  updateClock();
-  setInterval(updateClock, 1000 * 30);
+const flow=new EnergyFlow(document.getElementById("energy-flow"),state,layout);
+flow.start();
+
+const badge=document.getElementById("connection-badge");
+const adapter=new DataAdapter(window.NEX_CONFIG||{mode:"demo"},state,(label,cls)=>{
+  badge.textContent=label;badge.className=`connection-badge ${cls||""}`;
+});
+adapter.start();
+
+const cat=document.getElementById("nex-cat");
+function animateCat(showMessage=false){
+  if(!cat)return;
+  cat.classList.remove("pet");
+  void cat.offsetWidth;
+  cat.classList.add("pet");
+  setTimeout(()=>cat.classList.remove("pet"),1500);
+  if(showMessage)renderer.spirit("🐈 Мур-р-р...");
+}
+cat?.addEventListener("click",()=>animateCat(true));
+(function scheduleCat(){
+  setTimeout(()=>{animateCat(false);scheduleCat()},60000+Math.random()*120000);
 })();
