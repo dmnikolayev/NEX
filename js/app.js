@@ -5,12 +5,11 @@ import {LayoutEngine} from "./layout-engine.js";
 import {EnergyFlow} from "./energy-flow.js";
 
 const initial={
-  grid:{online:true,power:251,voltage:236.8,temperature:39},
-  solar:{power:2000,today:6.4},
-  house:{power:238,today:5.6},
-  battery:{soc:82,runtimeMinutes:1278,temperature:21,power:420},
-  internet:{online:true,ping:27},
-  weather:{forecast:[]},
+  grid:{online:true,power:1800,voltage:236.8,temperature:39},
+  solar:{power:1800,today:5.2},
+  house:{online:true,power:1800,today:5.2},
+  inverter:{temperature:39},
+  battery:{soc:82,runtimeMinutes:1278,temperature:21,power:-420},
   events:[]
 };
 
@@ -45,3 +44,19 @@ cat?.addEventListener("click",()=>animateCat(true));
 (function scheduleCat(){
   setTimeout(()=>{animateCat(false);scheduleCat()},60000+Math.random()*120000);
 })();
+
+
+const pulseButton=document.getElementById("pulse-details");
+const pulseSystem=document.getElementById("pulse-system");
+pulseButton?.addEventListener("click",()=>{
+  const open=pulseSystem?.hasAttribute("hidden");
+  if(open)pulseSystem?.removeAttribute("hidden");else pulseSystem?.setAttribute("hidden","");
+  pulseButton.setAttribute("aria-expanded",String(!!open));
+});
+
+const systemApi=document.getElementById("system-api");
+const originalStatus=adapter.onStatus;
+adapter.onStatus=(label,cls)=>{
+  originalStatus(label,cls);
+  if(systemApi){systemApi.textContent=label;systemApi.classList.toggle("offline",cls==="error");}
+};

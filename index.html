@@ -14,7 +14,7 @@
     <canvas id="energy-flow" class="energy-flow" aria-hidden="true"></canvas>
 
     <div class="brand">
-      <strong>NEX</strong><span>LIVING HOUSE</span>
+      <strong>NEX</strong><span>ЖИВИЙ БУДИНОК</span>
     </div>
 
     <header class="clock" data-node="clock">
@@ -24,42 +24,28 @@
 
     <section id="house-log" class="house-log" data-node="houseLog" aria-label="Події будинку"></section>
 
-    <section id="weather" class="weather" data-node="weather" aria-label="Погода"></section>
-
-    <section id="grid-hud" class="hud hud--grid" data-node="grid" aria-label="Мережа">
-      <i class="hud__dot"></i>
-      <strong id="grid-power">—</strong>
-      <small><span id="grid-voltage">—</span> · <span id="grid-temp">—</span></small>
+    <section id="grid-hud" class="device-label device-label--grid" data-node="grid" aria-label="Мережа">
+      <div class="device-label__head"><span>МЕРЕЖА</span><i id="grid-lamp" class="status-lamp"></i></div>
+      <strong id="grid-voltage">—</strong>
     </section>
 
-    <section id="internet-hud" class="hud hud--internet" data-node="internet" aria-label="Інтернет">
-      <i class="hud__dot"></i>
-      <strong id="internet-state">—</strong>
-      <small id="internet-ping">—</small>
-    </section>
-
-    <section id="solar-hud" class="hud hud--solar" data-node="solar" aria-label="Сонячні панелі">
-      <i class="hud__dot"></i>
+    <section id="solar-hud" class="panel-readout" data-node="solar" aria-label="Сонячні панелі">
       <strong id="solar-power">—</strong>
-      <small id="solar-today">—</small>
-    </section>
-
-    <section id="house-hud" class="hud hud--house" data-node="house" aria-label="Будинок">
-      <i class="hud__dot"></i>
-      <strong id="house-power">—</strong>
-      <small id="house-today">—</small>
+      <small><span id="solar-today">—</span> СЬОГОДНІ</small>
     </section>
 
     <section id="deye-display" class="device-display device-display--deye" data-node="deye" aria-label="Deye">
       <div class="deye-ring" id="deye-ring">
-        <strong id="deye-power">—</strong>
+        <strong id="deye-load">—</strong>
+        <small id="deye-temp">—</small>
       </div>
     </section>
 
     <section id="battery-display" class="device-display device-display--battery" data-node="battery" aria-label="Батарея">
       <div class="battery-bars" id="battery-bars" aria-hidden="true"></div>
-      <strong id="battery-soc">—</strong>
-      <small><span id="battery-runtime">—</span><br><span id="battery-temp">—</span></small>
+      <strong id="battery-runtime">—</strong>
+      <small id="battery-temp">—</small>
+      <div id="battery-flow" class="battery-flow" hidden><span id="battery-arrow">→</span><b id="battery-power">—</b></div>
     </section>
 
 
@@ -80,7 +66,31 @@
       </svg>
     </button>
 
-    <div id="connection-badge" class="connection-badge">DEMO</div>
+    <section id="nex-pulse" class="nex-pulse" aria-label="Енергетичний баланс будинку">
+      <div class="nex-pulse__head">
+        <span class="nex-pulse__eyebrow">NEX PULSE</span>
+        <strong id="pulse-mode">Будинок стабільний</strong>
+        <button id="pulse-details" class="nex-pulse__button" type="button" aria-expanded="false">СИСТЕМА</button>
+      </div>
+      <div class="nex-pulse__rail">
+        <article class="pulse-metric"><span>МЕРЕЖА</span><strong id="pulse-grid">—</strong></article>
+        <i class="pulse-arrow">→</i>
+        <article class="pulse-metric pulse-metric--solar"><span>СОНЦЕ</span><strong id="pulse-solar">—</strong></article>
+        <i class="pulse-arrow">→</i>
+        <article class="pulse-metric pulse-metric--home"><span>БУДИНОК</span><strong id="pulse-home">—</strong></article>
+        <article class="pulse-battery" aria-label="Заряд батареї">
+          <div id="pulse-soc-ring" class="pulse-battery__ring"><strong id="pulse-soc">—</strong></div>
+          <span id="pulse-battery-state">АКУМУЛЯТОР</span>
+        </article>
+      </div>
+      <div id="pulse-system" class="pulse-system" hidden>
+        <div><span>API</span><b id="system-api">DEMO</b></div>
+        <div><span>МЕРЕЖА</span><b id="system-grid">В НОРМІ</b></div>
+        <div><span>ІНВЕРТОР</span><b id="system-inverter">—</b></div>
+      </div>
+    </section>
+
+    <div id="connection-badge" class="connection-badge">ДЕМО</div>
     <div id="house-spirit" class="house-spirit" role="status"></div>
   </main>
 

@@ -18,6 +18,8 @@ window.NEX_CONFIG = {
       solarToday: "",
       housePower: "",
       houseToday: "",
+      houseOnline: "",
+      inverterTemperature: "",
       batterySoc: "",
       batteryRuntime: "",
       batteryTemperature: "",
@@ -26,7 +28,8 @@ window.NEX_CONFIG = {
       gridVoltage: "",
       gridTemperature: "",
       internetOnline: "",
-      internetPing: "",
+      internetUpload: "",
+      internetDownload: "",
       weatherTemperature: "",
       weatherCondition: "",
       weatherForecast: ""
