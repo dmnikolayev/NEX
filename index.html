@@ -14,7 +14,7 @@
     <canvas id="energy-flow" class="energy-flow" aria-hidden="true"></canvas>
 
     <div class="brand">
-      <strong>NEX</strong><span>ЖИВИЙ БУДИНОК</span>
+      <strong>NEX</strong><span data-i18n="brand.subtitle">ЖИВИЙ БУДИНОК</span>
     </div>
 
     <header class="clock" data-node="clock">
@@ -25,13 +25,13 @@
     <section id="house-log" class="house-log" data-node="houseLog" aria-label="Події будинку"></section>
 
     <section id="grid-hud" class="device-label device-label--grid" data-node="grid" aria-label="Мережа">
-      <div class="device-label__head"><span>МЕРЕЖА</span><i id="grid-lamp" class="status-lamp"></i></div>
+      <div class="device-label__head"><span data-i18n="grid.label">МЕРЕЖА</span><i id="grid-lamp" class="status-lamp"></i></div>
       <strong id="grid-voltage">—</strong>
     </section>
 
     <section id="solar-hud" class="panel-readout" data-node="solar" aria-label="Сонячні панелі">
       <strong id="solar-power">—</strong>
-      <small><span id="solar-today">—</span> СЬОГОДНІ</small>
+      <small><span id="solar-today">—</span> <span data-i18n="solar.today">СЬОГОДНІ</span></small>
     </section>
 
     <section id="deye-display" class="device-display device-display--deye" data-node="deye" aria-label="Deye">
@@ -66,29 +66,31 @@
       </svg>
     </button>
 
-    <section id="nex-pulse" class="nex-pulse" aria-label="Енергетичний баланс будинку">
-      <div class="nex-pulse__head">
-        <span class="nex-pulse__eyebrow">NEX PULSE</span>
-        <strong id="pulse-mode">Будинок стабільний</strong>
-        <button id="pulse-details" class="nex-pulse__button" type="button" aria-expanded="false">СИСТЕМА</button>
+
+    <button id="settings-button" class="settings-button" type="button"
+            aria-label="Налаштування" aria-expanded="false" aria-controls="settings-panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Zm8.2 4.4v-2l-2.1-.7a7 7 0 0 0-.7-1.7l1-2-1.4-1.4-2 1a7 7 0 0 0-1.7-.7L12.6 3h-2l-.7 2.1a7 7 0 0 0-1.7.7l-2-1-1.4 1.4 1 2a7 7 0 0 0-.7 1.7L3 10.6v2l2.1.7a7 7 0 0 0 .7 1.7l-1 2 1.4 1.4 2-1a7 7 0 0 0 1.7.7l.7 2.1h2l.7-2.1a7 7 0 0 0 1.7-.7l2 1 1.4-1.4-1-2a7 7 0 0 0 .7-1.7l2.1-.7Z"/>
+      </svg>
+    </button>
+
+    <aside id="settings-panel" class="settings-panel" hidden aria-label="Налаштування">
+      <div class="settings-panel__head">
+        <strong data-i18n="settings.title">НАЛАШТУВАННЯ</strong>
+        <button id="settings-close" type="button" aria-label="Закрити">×</button>
       </div>
-      <div class="nex-pulse__rail">
-        <article class="pulse-metric"><span>МЕРЕЖА</span><strong id="pulse-grid">—</strong></article>
-        <i class="pulse-arrow">→</i>
-        <article class="pulse-metric pulse-metric--solar"><span>СОНЦЕ</span><strong id="pulse-solar">—</strong></article>
-        <i class="pulse-arrow">→</i>
-        <article class="pulse-metric pulse-metric--home"><span>БУДИНОК</span><strong id="pulse-home">—</strong></article>
-        <article class="pulse-battery" aria-label="Заряд батареї">
-          <div id="pulse-soc-ring" class="pulse-battery__ring"><strong id="pulse-soc">—</strong></div>
-          <span id="pulse-battery-state">АКУМУЛЯТОР</span>
-        </article>
+      <div class="settings-panel__section">
+        <span data-i18n="settings.language">МОВА</span>
+        <label class="language-option">
+          <input type="radio" name="language" value="uk">
+          <span>Українська</span>
+        </label>
+        <label class="language-option">
+          <input type="radio" name="language" value="en">
+          <span>English</span>
+        </label>
       </div>
-      <div id="pulse-system" class="pulse-system" hidden>
-        <div><span>API</span><b id="system-api">DEMO</b></div>
-        <div><span>МЕРЕЖА</span><b id="system-grid">В НОРМІ</b></div>
-        <div><span>ІНВЕРТОР</span><b id="system-inverter">—</b></div>
-      </div>
-    </section>
+    </aside>
 
     <div id="connection-badge" class="connection-badge">ДЕМО</div>
     <div id="house-spirit" class="house-spirit" role="status"></div>

@@ -1,3 +1,4 @@
+import {applyLanguage, getLanguage, t} from "./i18n.js";
 import {HouseState} from "./house-state.js";
 import {DataAdapter} from "./data-adapter.js";
 import {StateRenderer} from "./state-renderer.js";
@@ -38,7 +39,7 @@ function animateCat(showMessage=false){
   void cat.offsetWidth;
   cat.classList.add("pet");
   setTimeout(()=>cat.classList.remove("pet"),1500);
-  if(showMessage)renderer.spirit("🐈 Мур-р-р...");
+  if(showMessage)renderer.spirit(t("spirit.cat"));
 }
 cat?.addEventListener("click",()=>animateCat(true));
 (function scheduleCat(){
@@ -46,17 +47,34 @@ cat?.addEventListener("click",()=>animateCat(true));
 })();
 
 
-const pulseButton=document.getElementById("pulse-details");
-const pulseSystem=document.getElementById("pulse-system");
-pulseButton?.addEventListener("click",()=>{
-  const open=pulseSystem?.hasAttribute("hidden");
-  if(open)pulseSystem?.removeAttribute("hidden");else pulseSystem?.setAttribute("hidden","");
-  pulseButton.setAttribute("aria-expanded",String(!!open));
+
+const settingsButton=document.getElementById("settings-button");
+const settingsPanel=document.getElementById("settings-panel");
+const settingsClose=document.getElementById("settings-close");
+
+function setSettingsOpen(open){
+  if(open)settingsPanel?.removeAttribute("hidden");
+  else settingsPanel?.setAttribute("hidden","");
+  settingsButton?.setAttribute("aria-expanded",String(open));
+}
+settingsButton?.addEventListener("click",()=>{
+  setSettingsOpen(settingsPanel?.hasAttribute("hidden"));
+});
+settingsClose?.addEventListener("click",()=>setSettingsOpen(false));
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")setSettingsOpen(false);
+});
+document.addEventListener("click",event=>{
+  if(settingsPanel?.hasAttribute("hidden"))return;
+  if(settingsPanel?.contains(event.target)||settingsButton?.contains(event.target))return;
+  setSettingsOpen(false);
+});
+document.querySelectorAll('input[name="language"]').forEach(input=>{
+  input.addEventListener("change",()=>{
+    applyLanguage(input.value);
+    renderer.tickClock();
+    renderer.render(state.value);
+  });
 });
 
-const systemApi=document.getElementById("system-api");
-const originalStatus=adapter.onStatus;
-adapter.onStatus=(label,cls)=>{
-  originalStatus(label,cls);
-  if(systemApi){systemApi.textContent=label;systemApi.classList.toggle("offline",cls==="error");}
-};
+applyLanguage(getLanguage());

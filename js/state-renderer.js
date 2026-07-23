@@ -1,18 +1,19 @@
+import {t, getLocale} from "./i18n.js";
 export class StateRenderer{
   constructor(state){this.state=state;this.last={}}
   init(){this.tickClock();setInterval(()=>this.tickClock(),30000);this.makeBatteryBars()}
   tickClock(){
     const now=new Date();
-    text("clock-time",now.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"}));
-    const raw=now.toLocaleDateString("uk-UA",{weekday:"long",day:"numeric",month:"long"});
+    text("clock-time",now.toLocaleTimeString(getLocale(),{hour:"2-digit",minute:"2-digit"}));
+    const raw=now.toLocaleDateString(getLocale(),{weekday:"long",day:"numeric",month:"long"});
     text("clock-date",raw.charAt(0).toUpperCase()+raw.slice(1));
   }
   render(s){
-    text("grid-voltage",`${fmt(s.grid.voltage,1)} В`);
+    text("grid-voltage",`${fmt(s.grid.voltage,1)} ${getLocale()==="uk-UA"?"В":"V"}`);
     setLamp("grid-lamp",!!s.grid.online);
 
     text("solar-power",power(s.solar.power));
-    text("solar-today",`${fmt(s.solar.today,1)} кВт·год`);
+    text("solar-today",`${fmt(s.solar.today,1)} ${getLocale()==="uk-UA"?"кВт·год":"kWh"}`);
 
     text("deye-load",power(s.house.power));
     text("deye-temp",`${fmt(s.inverter?.temperature,0)}°C`);
@@ -23,7 +24,6 @@ export class StateRenderer{
     this.fillBattery(s.battery.soc);
     this.renderBatteryFlow(s);
     this.renderEvents(s.events);
-    this.renderPulse(s);
     this.detectEvents(s);
   }
   makeBatteryBars(){
@@ -48,26 +48,13 @@ export class StateRenderer{
     text("battery-power",power(Math.abs(watts)));
   }
   renderEvents(events=[]){
-    const fallback=[{time:"09:12",text:"+2,0 кВт"},{time:"09:05",text:"Батарея заряджається"},{time:"08:47",text:"Мережа в нормі"}];
+    const fallback=[{time:"09:12",text:getLocale()==="uk-UA"?"+2,0 кВт":"+2.0 kW"},{time:"09:05",text:t("event.charging")},{time:"08:47",text:t("event.gridOk")}];
     const rows=(events.length?events:fallback).slice(0,4);
     document.getElementById("house-log").innerHTML=rows.map(e=>`<article class="house-log__row"><time>${safe(e.time||"")}</time><span>${safe(e.text||"")}</span></article>`).join("");
   }
-  renderPulse(s){
-    const grid=Number(s.grid.power)||0, solar=Number(s.solar.power)||0, home=Number(s.house.power)||0;
-    const battery=Number(s.battery.power)||0, soc=Math.max(0,Math.min(100,Number(s.battery.soc)||0));
-    text("pulse-grid",power(grid)); text("pulse-solar",power(solar)); text("pulse-home",power(home));
-    text("pulse-soc",`${Math.round(soc)}%`);
-    document.getElementById("pulse-soc-ring")?.style.setProperty("--soc",soc);
-    const mode=!s.grid.online?"Будинок працює від резерву":solar>home*1.05?"Сонце живить будинок":battery>30?"Батарея заряджається":"Будинок стабільний";
-    text("pulse-mode",mode);
-    text("pulse-battery-state",battery>30?`ЗАРЯД ${power(battery)}`:battery<-30?`ВІДДАЄ ${power(Math.abs(battery))}`:"ОЧІКУЄ");
-    text("system-grid",s.grid.online?"В НОРМІ":"НЕМАЄ");
-    text("system-inverter",`${fmt(s.inverter?.temperature,0)}°C`);
-    document.getElementById("system-grid")?.classList.toggle("offline",!s.grid.online);
-  }
   detectEvents(s){
-    if(this.last.gridOnline===false&&s.grid.online)this.spirit("⚡ Мережу відновлено");
-    if(this.last.soc<99&&s.battery.soc>=99)this.spirit("🔋 Батарея повністю заряджена");
+    if(this.last.gridOnline===false&&s.grid.online)this.spirit(t("spirit.gridRestored"));
+        if(this.last.soc<99&&s.battery.soc>=99)this.spirit(t("spirit.batteryFull"));
     this.last={gridOnline:s.grid.online,soc:s.battery.soc};
   }
   spirit(message){
@@ -77,9 +64,16 @@ export class StateRenderer{
   }
 }
 const text=(id,v)=>{const n=document.getElementById(id);if(n)n.textContent=v};
-const fmt=(n,d=0)=>Number(n||0).toLocaleString("uk-UA",{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmt=(n,d=0)=>Number(n||0).toLocaleString(getLocale(),{minimumFractionDigits:d,maximumFractionDigits:d});
 const signed=n=>`${Number(n)>0?"+":""}${fmt(n,0)}`;
-const power=w=>Math.abs(Number(w||0))>=1000?`${fmt(Number(w)/1000,1)} кВт`:`${fmt(w,0)} Вт`;
-const duration=m=>{m=Math.max(0,Math.round(Number(m||0)));return `${Math.floor(m/60)} год ${String(m%60).padStart(2,"0")} хв`};
+const power=w=>Math.abs(Number(w||0))>=1000
+  ?`${fmt(Number(w)/1000,1)} ${getLocale()==="uk-UA"?"кВт":"kW"}`
+  :`${fmt(w,0)} ${getLocale()==="uk-UA"?"Вт":"W"}`;
+const duration=m=>{
+  m=Math.max(0,Math.round(Number(m||0)));
+  return getLocale()==="uk-UA"
+    ?`${Math.floor(m/60)} год ${String(m%60).padStart(2,"0")} хв`
+    :`${Math.floor(m/60)}h ${String(m%60).padStart(2,"0")}m`;
+};
 const setLamp=(id,on)=>document.getElementById(id)?.classList.toggle("off",!on);
 const safe=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));

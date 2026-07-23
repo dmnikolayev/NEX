@@ -1,22 +1,15 @@
-# NEX — стандарт написів
+# NEX — Settings + Language
 
-Замінити файли поверх поточної версії.
+Replace these files over the current NEX installation.
 
-Стандарт:
-- інтерфейс українською;
-- назви брендів і пристроїв без перекладу: NEX, NEX PULSE, DEYE, API;
-- службові назви великими літерами;
-- одиниці: В, Вт, кВт, кВт·год, °C;
-- час роботи: год / хв.
-
-Змінено:
-- GRID → МЕРЕЖА;
-- SOLAR → СОНЦЕ;
-- HOME → БУДИНОК;
-- BATTERY → АКУМУЛЯТОР;
-- SYSTEM → СИСТЕМА;
-- INVERTER → ІНВЕРТОР;
-- Today → СЬОГОДНІ;
-- ONLINE/OFFLINE → В НОРМІ/НЕМАЄ;
-- CHARGE/SUPPLY/IDLE → ЗАРЯД/ВІДДАЄ/ОЧІКУЄ;
-- LIVE/DEMO data badge remains product-status terminology, DEMO localized to ДЕМО.
+Changes:
+- removed the entire NEX Pulse lower panel;
+- the cat remains directly on the house scene and is centered lower;
+- added a settings gear in the upper-right corner;
+- settings contain only language choice:
+  - Українська
+  - English
+- language is saved in localStorage;
+- switching works without page reload;
+- static labels, clock/date, event texts and units switch language;
+- weather, live internet speed and duplicate HOME overlay remain removed.
